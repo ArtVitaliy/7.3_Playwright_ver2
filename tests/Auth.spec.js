@@ -1,4 +1,4 @@
-const { test, expect, chromium } = require('@playwright/test');
+const { test, expect } = require('@playwright/test');
 
 const {
     email,
@@ -8,9 +8,7 @@ const {
   } = require("../user");
 
 test('Successful authorization', async ({ page }) => {
-    const browser = await chromium.launch({
-        headless: false,
-      });
+    
   await page.goto('https://netology.ru/');
   await page.click('text=Войти');
   await expect(page).toHaveURL('https://netology.ru/?modal=sign_in');
@@ -24,14 +22,11 @@ test('Successful authorization', async ({ page }) => {
   ]);
   await expect(page.locator("h2")).toHaveText("Моё обучение");
   await page.screenshot({ path: "screenshot.png" });
-  await browser.close();
 });
 
 
 test("Unsuccessful authorization", async ({ page }) => {
-    const browser = await chromium.launch({
-      headless: false,
-    });
+    
   await page.goto('https://netology.ru/');
   await page.click('text=Войти');
   await expect(page).toHaveURL('https://netology.ru/?modal=sign_in');
@@ -44,5 +39,4 @@ test("Unsuccessful authorization", async ({ page }) => {
   const error = await page.locator('[data-testid="login-error-hint"]');
   await expect(error).toHaveText("Вы ввели неправильно логин или пароль");
   await page.screenshot({ path: "screenshotFailed.png", fullPage: true });
-  await browser.close();
   });
